@@ -1,11 +1,14 @@
 #!/bin/bash
 set -e
 
-BOOTSTRAP_DIR=".yrkit-bootstrap"
+BOOTSTRAP_DIR="$HOME/.yrkit-bootstrap"
 mkdir -p "$BOOTSTRAP_DIR"
 
 sudo apt update
 sudo apt install -y nodejs npm git jq ack docker.io docker-compose gh curl
+
+sudo groupadd docker 2>/dev/null || true
+sudo usermod -aG docker $USER
 
 export NVM_DIR="$HOME/.nvm"
 
@@ -16,6 +19,7 @@ fi
 source "$NVM_DIR/nvm.sh"
 
 nvm install 22
+nvm use 22
 nvm alias default 22
 
 npm list -g pm2 >/dev/null 2>&1 || npm i -g pm2
@@ -24,7 +28,9 @@ npm list -g yr-cli >/dev/null 2>&1 || npm i -g yr-cli
 
 curl -fsSL https://raw.githubusercontent.com/yr-lang/bootstrap/main/docker-compose.yml -o "$BOOTSTRAP_DIR/docker-compose.yml"
 
-docker compose -f "$BOOTSTRAP_DIR/docker-compose.yml" up -d
+newgrp docker <<EOF
+docker-compose -f "$BOOTSTRAP_DIR/docker-compose.yml" up -d
+EOF
 
 DOTFILES_DIR="$HOME/.files"
 DOTFILES_REPO="https://github.com/yr-lang/dotfiles"
@@ -35,4 +41,8 @@ else
   git -C "$DOTFILES_DIR" pull
 fi
 
-cd "$DOTFILES_DIR" && ./install.sh && cd -
+cd "$DOTFILES_DIR"
+./install.sh
+cd -
+
+exec bash
