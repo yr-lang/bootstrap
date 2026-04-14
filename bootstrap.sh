@@ -40,7 +40,8 @@ newgrp docker <<EOF
 docker-compose -f "$BOOTSTRAP_DIR/docker-compose.yml" up -d
 EOF
 
-DOTFILES_DIR="$HOME/.files"
+if [[ ! -d "$HOME/.yrlibs" ]]; then mkdir "$HOME/.yrlibs"; fi
+DOTFILES_DIR="$HOME/.yrlibs/dotfiles"
 DOTFILES_REPO="https://github.com/yr-lang/dotfiles"
 
 if [ ! -d "$DOTFILES_DIR" ]; then
