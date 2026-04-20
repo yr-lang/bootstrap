@@ -12,7 +12,7 @@ BOOTSTRAP_DIR="$HOME/.yrkit-bootstrap"
 mkdir -p "$BOOTSTRAP_DIR"
 
 sudo apt update
-sudo apt install -y nodejs npm git jq ack docker.io docker-compose gh curl
+sudo apt install -y nodejs npm git jq ack docker.io docker-compose gh curl python-is-python3
 
 sudo groupadd docker 2>/dev/null || true
 sudo usermod -aG docker $USER
@@ -40,7 +40,7 @@ newgrp docker <<EOF
 docker-compose -f "$BOOTSTRAP_DIR/docker-compose.yml" up -d
 EOF
 
-if [[ ! -d "$HOME/.yrlibs" ]]; then mkdir "$HOME/.yrlibs"; fi
+mkdir -p "$HOME/.yrlibs"
 DOTFILES_DIR="$HOME/.yrlibs/dotfiles"
 DOTFILES_REPO="https://github.com/yr-lang/dotfiles"
 
