@@ -41,7 +41,7 @@ docker-compose -f "$BOOTSTRAP_DIR/docker-compose.yml" up -d
 EOF
 
 mkdir -p "$HOME/.yrlibs"
-DOTFILES_DIR="$HOME/.yrlibs/dotfiles"
+DOTFILES_DIR="$HOME/.yr-lang/dotfiles"
 DOTFILES_REPO="https://github.com/yr-lang/dotfiles"
 
 if [ ! -d "$DOTFILES_DIR" ]; then
