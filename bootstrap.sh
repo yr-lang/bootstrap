@@ -7,6 +7,8 @@ if [[ "$1" == "--user" && -n "$2" ]]; then USER_NAME="$2"; fi
 if [ "$1" != "--skip-user" ] && [ "$USER" != "$USER_NAME" ]; then
   id "$USER_NAME" >/dev/null 2>&1 || sudo useradd -m -s /bin/bash -G sudo "$USER_NAME"
 
+  sudo passwd "$USER_NAME"
+
   exec sudo -u "$USER_NAME" -H bash -c \
     "$(curl -fsSL https://raw.githubusercontent.com/yr-lang/bootstrap/main/bootstrap.sh)" \
     -- --skip-user
@@ -16,7 +18,9 @@ BOOTSTRAP_DIR="$HOME/.yrkit-bootstrap"
 mkdir -p "$BOOTSTRAP_DIR"
 
 sudo apt update
-sudo apt install -y nodejs npm git jq ack docker.io docker-compose gh curl python-is-python3
+
+sudo NEEDRESTART_MODE=a apt install -y \
+  nodejs npm git jq ack docker.io docker-compose gh curl python-is-python3
 
 sudo groupadd docker 2>/dev/null || true
 sudo usermod -aG docker $USER
@@ -40,9 +44,7 @@ npm list -g yr-cli >/dev/null 2>&1 || npm i -g yr-cli
 curl -fsSL https://raw.githubusercontent.com/yr-lang/bootstrap/main/docker-compose.yml \
   -o "$BOOTSTRAP_DIR/docker-compose.yml"
 
-newgrp docker <<EOF
-docker-compose -f "$BOOTSTRAP_DIR/docker-compose.yml" up -d
-EOF
+sudo docker-compose -f "$BOOTSTRAP_DIR/docker-compose.yml" up -d
 
 mkdir -p "$HOME/.yrlibs"
 DOTFILES_DIR="$HOME/.yr-lang/dotfiles"
