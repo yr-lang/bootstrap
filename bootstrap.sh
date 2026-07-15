@@ -10,10 +10,8 @@ if [ "$1" != "--skip-user" ] && [ "$USER" != "$USER_NAME" ]; then
     sudo passwd "$USER_NAME"
   }
 
-  sudo -iu "$USER_NAME" bash -c "
-    cd ~
-    curl -fsSL https://raw.githubusercontent.com/yr-lang/bootstrap/main/bootstrap.sh | bash -s -- --skip-user
-  "
+  sudo -iu "$USER_NAME" bash -c \
+    "curl -fsSL https://raw.githubusercontent.com/yr-lang/bootstrap/main/bootstrap.sh | bash -s -- --skip-user"
 
   exec su - "$USER_NAME"
 fi
