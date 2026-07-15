@@ -13,7 +13,7 @@ if [ "$1" != "--skip-user" ] && [ "$USER" != "$USER_NAME" ]; then
   sudo -iu "$USER_NAME" bash -c \
     'curl -fsSL https://raw.githubusercontent.com/yr-lang/bootstrap/main/bootstrap.sh | bash -s -- --skip-user'
 
-  exec sudo -iu "$USER_NAME"
+  exec sudo -iu "$USER_NAME" < /dev/tty
 fi
 
 BOOTSTRAP_DIR="$HOME/.yrkit-bootstrap"
