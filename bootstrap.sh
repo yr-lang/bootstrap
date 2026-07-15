@@ -3,6 +3,7 @@ set -e
 
 USER_NAME="yrkit"
 if [[ "$1" == "--user" && -n "$2" ]]; then USER_NAME="$2"; fi
+echo "$USER $USER_NAME"
 
 if [ "$1" != "--skip-user" ] && [ "$USER" != "$USER_NAME" ]; then
   id "$USER_NAME" >/dev/null 2>&1 || sudo useradd -m -s /bin/bash -G sudo "$USER_NAME"
