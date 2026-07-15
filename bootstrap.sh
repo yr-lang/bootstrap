@@ -3,7 +3,6 @@ set -e
 
 USER_NAME="yrkit"
 if [[ "$1" == "--user" && -n "$2" ]]; then USER_NAME="$2"; fi
-echo "$USER $USER_NAME"
 
 if [ "$1" != "--skip-user" ] && [ "$USER" != "$USER_NAME" ]; then
   id "$USER_NAME" >/dev/null 2>&1 || {
@@ -11,9 +10,10 @@ if [ "$1" != "--skip-user" ] && [ "$USER" != "$USER_NAME" ]; then
     sudo passwd "$USER_NAME"
   }
 
-  exec sudo -u "$USER_NAME" -H bash -c \
-    "$(curl -fsSL https://raw.githubusercontent.com/yr-lang/bootstrap/main/bootstrap.sh)" \
-    -- --skip-user
+  exec sudo -u "$USER_NAME" -H bash -c "
+    cd ~
+    $(curl -fsSL https://raw.githubusercontent.com/yr-lang/bootstrap/main/bootstrap.sh)
+  " -- --skip-user
 fi
 
 BOOTSTRAP_DIR="$HOME/.yrkit-bootstrap"
