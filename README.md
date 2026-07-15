@@ -20,10 +20,16 @@ sudo apt update && sudo apt install -y curl
 curl -fsSL https://raw.githubusercontent.com/yr-lang/bootstrap/main/bootstrap.sh | bash
 ```
 
-2.1 Not using `yrkit` as user
+2.2 Not using `yrkit` as user
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/yr-lang/bootstrap/main/bootstrap.sh | bash -s -- --skip-user
+```
+
+2.3 Using another user, e.g, `NEW_USER`
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/yr-lang/bootstrap/main/bootstrap.sh | bash -s -- --user NEW_USER
 ```
 
 ---
