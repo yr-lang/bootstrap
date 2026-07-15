@@ -5,10 +5,10 @@ USER_NAME="yrkit"
 if [[ "$1" == "--user" && -n "$2" ]]; then USER_NAME="$2"; fi
 
 if [ "$1" != "--skip-user" ] && [ "$USER" != "$USER_NAME" ]; then
-  id "$USER_NAME" >/dev/null 2>&1 || {
+  if ! id "$USER_NAME" >/dev/null 2>&1; then
     sudo useradd -m -s /bin/bash -G sudo "$USER_NAME"
     sudo passwd "$USER_NAME"
-  }
+  fi
 
   sudo -iu "$USER_NAME" bash -c \
     "curl -fsSL https://raw.githubusercontent.com/yr-lang/bootstrap/main/bootstrap.sh | bash -s -- --skip-user"
