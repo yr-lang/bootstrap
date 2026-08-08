@@ -22,7 +22,7 @@ mkdir -p "$BOOTSTRAP_DIR"
 sudo apt update
 
 sudo NEEDRESTART_MODE=a apt install -y \
-  nodejs npm git jq ack docker.io docker-compose gh curl python-is-python3
+  nodejs npm git jq ack docker.io docker-compose gh curl python-is-python3 pip unzip
 
 sudo groupadd docker 2>/dev/null || true
 sudo usermod -aG docker $USER
